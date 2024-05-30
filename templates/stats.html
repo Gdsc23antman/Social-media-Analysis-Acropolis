@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Statistics{% endblock %}
+{% block content %}
+<h1>{{ topic.title() }} Statistics</h1>
+<div id="stats-container"></div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const topic = "{{ topic }}";
+        fetch(`/api/stats/${topic}`)
+            .then(response => response.json())
+            .then(data => {
+                const container = document.getElementById('stats-container');
+                for (const [key, value] of Object.entries(data)) {
+                    const statElement = document.createElement('p');
+                    statElement.textContent = `${key}: ${value}`;
+                    container.appendChild(statElement);
+                }
+            });
+    });
+</script>
+{% endblock %}
